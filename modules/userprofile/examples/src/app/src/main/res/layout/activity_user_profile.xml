@@ -51,7 +51,7 @@
                         android:textColor="@color/black" />
                     <EditText
                         android:id="@+id/nameInput"
-                        android:layout_width="150dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:padding="5dp" />
                 </TableRow>
@@ -67,7 +67,7 @@
                     <EditText
                         android:id="@+id/emailInput"
                         android:enabled="false"
-                        android:layout_width="150dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:padding="5dp" />
                 </TableRow>
@@ -82,7 +82,7 @@
                         android:textColor="@color/black" />
                     <EditText
                         android:id="@+id/addressInput"
-                        android:layout_width="150dp"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:padding="5dp" />
                 </TableRow>

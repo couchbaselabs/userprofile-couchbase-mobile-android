@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginTapped(View view) {
         if (usernameInput.length() > 0 && passwordInput.length() > 0) {
             DatabaseManager dbMgr = DatabaseManager.getSharedInstance();
-            dbMgr.OpenOrCreateDatabaseForUser(getApplicationContext(), usernameInput.getText().toString());
+            dbMgr.openOrCreateDatabaseForUser(getApplicationContext(), usernameInput.getText().toString());
 
             Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

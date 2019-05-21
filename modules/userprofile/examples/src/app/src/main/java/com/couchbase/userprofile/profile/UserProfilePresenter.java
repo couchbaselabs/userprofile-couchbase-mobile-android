@@ -18,42 +18,53 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
         this.mUserProfileView = mUserProfileView;
     }
 
-    public void fetchProfile() {
+    // tag::fetchProfile[]
+    public void fetchProfile()
+    // end::fetchProfile[]
+    {
         Database database = DatabaseManager.getDatabase();
 
+        // tag::docfetch[]
         String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
 
         if (database != null) {
-            Document document = database.getDocument(docId);
 
-            Map<String, Object> profile = new HashMap<>();
+            Map<String, Object> profile = new HashMap<>(); // <1>
+
+            profile.put("email", DatabaseManager.getSharedInstance().currentUser); // <2>
+
+            Document document = database.getDocument(docId); // <3>
 
             if (document != null) {
-                profile.put("name", document.getString("name"));
-                profile.put("email", document.getString("email"));
-                profile.put("address", document.getString("address"));
-                profile.put("imageData", document.getBlob("imageData"));
-            }
-            else
-            {
-                profile.put("email", DatabaseManager.getSharedInstance().currentUser);
+                profile.put("name", document.getString("name")); // <4>
+                profile.put("address", document.getString("address")); // <4>
+                profile.put("imageData", document.getBlob("imageData")); // <4>
             }
 
-            mUserProfileView.showProfile(profile);
+            mUserProfileView.showProfile(profile); // <5>
         }
+        // end::docfetch[]
     }
 
-    public void saveProfile(Map<String,Object> profile) {
+    // tag::saveProfile[]
+    public void saveProfile(Map<String,Object> profile)
+    // end::saveProfile[]
+    {
         Database database = DatabaseManager.getDatabase();
 
         String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
 
+        // tag::docset[]
         MutableDocument mutableDocument = new MutableDocument(docId, profile);
+        // end::docset[]
 
         try {
+            // tag::docsave[]
             database.save(mutableDocument);
+            // end::docsave[]
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
+
     }
 }

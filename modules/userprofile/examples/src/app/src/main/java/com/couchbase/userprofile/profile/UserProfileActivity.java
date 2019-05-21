@@ -88,13 +88,14 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     }
 
     public void onLogoutTapped(View view) {
-        DatabaseManager.getSharedInstance().CloseDatabase();
+        DatabaseManager.getSharedInstance().closeDatabaseForUser();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
     public void onSaveTapped(View view) {
+        // tag::userprofile[]
         Map<String, Object> profile = new HashMap<>();
         profile.put("name", nameInput.getText().toString());
         profile.put("email", emailInput.getText().toString());
@@ -105,10 +106,11 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         if (imageViewBytes != null) {
             profile.put("imageData", new com.couchbase.lite.Blob("image/jpeg", imageViewBytes));
         }
+        // end::userprofile[]
 
         mActionListener.saveProfile(profile);
 
-        Toast.makeText(this, "Success updated profile!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Successfully updated profile!", Toast.LENGTH_SHORT).show();
     }
 
     private byte[] getImageViewBytes() {
