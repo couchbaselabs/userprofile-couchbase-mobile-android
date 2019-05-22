@@ -11,7 +11,7 @@ ifndef::env-site,env-github[]
 :toclevels: 3
 endif::[]
 :examplesdir: ../../examples
-:imagesdir: ../../assets/images/android
+:imagesdir: ../../assets/images
 :githubsrc: https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/standalone/modules/userprofile/examples/src
 
 toc::[]
@@ -59,7 +59,7 @@ In this tutorial you will be working with an app that allows users to log in and
 
 User profile information is persisted as a `Document` in the local Couchbase Lite `Database`. When the user logs out and logs back in again, the profile information is loaded from the `Database`.
 
-image::user_profile.gif[200,400]
+image::{imagesdir}/android/user_profile.gif[200,400]
 
 == Installation
 
@@ -98,17 +98,17 @@ Once all of the solution bits have been retrieved you can verify the installatio
 * Build and run the project.
 * Verify that you see the login screen.
 +
-image::user_profile_login.png[User Profile Login Screen Image]
+image::{imagesdir}/android/user_profile_login.png[User Profile Login Screen Image]
 
 == Sample App Architecture
 
 The sample app follows the link:https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter[MVP pattern], separating the internal data model, from a passive view through a presenter that handles the logic of our application and acts as the conduit between the model and the view.
 
-image::mvp_architecture.png[MVP Architecture]
+image::{imagesdir}/android/mvp_architecture.png[MVP Architecture]
 
 In the Android Studio project, the code is structured by feature. You can select the Android option in the left navigator to view the files by package.
 
-image::mvp_as.png[MVP Android Studio]
+image::{imagesdir}/android/mvp_as.png[MVP Android Studio]
 
 Each package contains 3 different files:
 
@@ -118,7 +118,7 @@ Each package contains 3 different files:
 
 * **Contract**: An interface that the `Presenter` and `Activity` implement.
 
-image::mvp_package.png[MVP Package]
+image::{imagesdir}/android/mvp_package.png[MVP Package]
 
 == Data Model
 Couchbase Lite is a JSON Document Store. A `Document` is a logical collection of named fields and values.The values are any valid JSON types. In addition to the standard JSON types, Couchbase Lite supports `Date` and `Blob` data types. 
@@ -307,11 +307,11 @@ if (document != null) {
 * Enter a "name" for the user in the Text Entry box and Tap "Save"
 * Confirm that you see a toast message "Succesfully Updated Profile". The first time, you update the profile screen, the `Document` will be created. 
 +
-image::doc_create.png[User Profile Document Creation]
+image::{imagesdir}/android/doc_create.png[User Profile Document Creation]
 +
 * Now tap on the "Upload Photo" button and select an image from the Photo Album. 
 +
-image::image_selection.gif[100,400]
+image::{imagesdir}/android/image_selection.gif[100,400]
 +
 * Tap "Save"
 * Confirm that you see toast message "Succesfully Updated Profile". The `Document` will be updated this time.
@@ -319,7 +319,7 @@ image::image_selection.gif[100,400]
 * Log back into the app with the same user email Id and password that you used earlier. In my example, I used _"demo@example.com"_ and _"password"_. (Logging in with those credentials again) 
 * Confirm that you see the profile screen  with the _name_ and _image_ values that you set earlier.  
 +
-image::log_off_on.gif[200,400]
+image::{imagesdir}/android/log_off_on.gif[200,400]
 
 == Learn More
 Congratulations on completing this tutorial!
