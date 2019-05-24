@@ -1,5 +1,3 @@
-
-
 = User Profile Sample: Couchbase Lite Fundamentals
 :idprefix:
 :idseparator: -
@@ -17,6 +15,7 @@ endif::[]
 toc::[]
 
 == Introduction
+
 Couchbase Mobile brings the power of NoSQL to the edge. It is comprised of three components:
 
 * *Couchbase Lite*, an embedded, NoSQL JSON Document Style database for your mobile apps.
@@ -36,25 +35,26 @@ You will learn the fundamentals of
 * Database Operations 
 * Document CRUD Operations
 
- 
 ====
 You can learn more about Couchbase Mobile https://developer.couchbase.com/mobile[here]
 ====
 
 == Prerequisites
-This tutorial assumes familiarity with building Android apps using link:https://www.java.com[Java].
 
-* link:https://developer.android.com/studio[Android Studio 3.4 or above]
+This tutorial assumes familiarity with building Android apps using https://www.java.com[Java].
+
+* https://developer.android.com/studio[Android Studio 3.4 or above]
 * Android device or emulator running API level 21 or above
 * Android SDK 26
 * Android Build Tools 26
-* link:https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK 8]
+* https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK 8]
 * git (Optional)
 This is required if you would prefer to pull the source code from GitHub repo.
 ** Create a link:https://github.com[free github account] if you don't already have one
-** git can be downloaded from link:https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git-scm.org]
+** git can be downloaded from https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git-scm.org]
 
 == App Overview
+
 In this tutorial you will be working with an app that allows users to log in and make changes to their user profile information.
 
 User profile information is persisted as a `Document` in the local Couchbase Lite `Database`. When the user logs out and logs back in again, the profile information is loaded from the `Database`.
@@ -67,11 +67,11 @@ image::{imagesdir}/android/user_profile.gif[200,400]
 
 ==== Option 1 : Git Clone
 
-- Clone the *_standalone_* branch of the `User Profile Demo` solution from GitHub. Assuming that you have link:https://git-scm.com/downloads[Git] installed you can use the following command to clone the solution:
+- Clone the *_standalone_* branch of the `User Profile Demo` repository from GitHub. Assuming that you have link:https://git-scm.com/downloads[Git] installed you can use the following command to clone the solution:
 +
 [source,bash] 
 ----
-  git clone -b standalone https://github.com/couchbaselabs/userprofile-couchbase-mobile-android.git
+git clone -b standalone https://github.com/couchbaselabs/userprofile-couchbase-mobile-android.git
 ---- 
 
 ==== Option 2 : Download .zip
@@ -94,6 +94,7 @@ Once all of the solution bits have been retrieved you can verify the installatio
 ----
 
 === Try it out
+
 * Open link:{githubsrc}/build.gradle[build.gradle] using Android Studio.
 * Build and run the project.
 * Verify that you see the login screen.
@@ -121,10 +122,12 @@ Each package contains 3 different files:
 image::{imagesdir}/android/mvp_package.png[MVP Package]
 
 == Data Model
-Couchbase Lite is a JSON Document Store. A `Document` is a logical collection of named fields and values.The values are any valid JSON types. In addition to the standard JSON types, Couchbase Lite supports `Date` and `Blob` data types. 
+
+Couchbase Lite is a JSON Document Store. A `Document` is a logical collection of named fields and values. The values are any valid JSON types. In addition to the standard JSON types, Couchbase Lite supports `Date` and `Blob` data types.
 While it is not required or enforced, it is a recommended practice to include a _"type"_ property that can serve as a namespace for related documents. 
 
 === The "User Profile" Document
+
 The sample app deals with a single `Document` with a _"type"_ property of _"user"_.  The document ID is of the form _"user::<email>"_.
 An example of a document would be 
 
@@ -137,11 +140,11 @@ An example of a document would be
     "image":CBLBlob (image/jpg) // <1>
 }
 ```
-<1> Special link:https://docs.couchbase.com/couchbase-lite/2.0/java.html#blobs[`Blob`] data type that is associated with the profile image.  
+<1> Special link:https://docs.couchbase.com/couchbase-lite/current/java.html#blobs[`Blob`] data type that is associated with the profile image.
 
 === UserProfile 
 
-For the purpose of this tutorial the _"user"_ `Document` is first stored witin an `Object` of type `Map<String, Object>`.
+For the purpose of this tutorial the _"user"_ `Document` is first stored within an `Object` of type `Map<String, Object>`.
 
 [source,java]
 ----
@@ -151,9 +154,11 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 The `Map<String, Object>` object functions used as a data storage mechanism between the app's UI and the backing functionality of the Couchbase Lite `Document` object.
 
 == Basic Database Operations
+
 In this section, we will do a code walkthrough of the basic Database operations
 
 === Create / Open a Database
+
 When a user logs in, we create an empty Couchbase Lite database for the user if one does not exist. 
 
 * Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `openOrCreateDatabaseForUser` method. 
@@ -178,7 +183,8 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 ---- 
 
 === Listening to Database Changes
-You can be asynchornously notified of any change (add, delete, update) to the Database by registering a change listener with the Database. In our app, we are not doing anything special with the Database change notification other than logging the change. In a real world app, you would use this notification for instance, to update the UI.
+
+You can be asynchronously notified of any change (add, delete, update) to the Database by registering a change listener with the Database. In our app, we are not doing anything special with the Database change notification other than logging the change. In a real world app, you would use this notification for instance, to update the UI.
 
 * Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `registerForDatabaseChanges()` function. 
 [source,java]
@@ -195,6 +201,7 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 ----
 
 === Close a Database
+
 When a user logs out, we close the Couchbase Lite Database associated with the user and deregister any database change listeners
 
 * Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `closeDatabaseForCurrentUser()` function. 
@@ -211,7 +218,7 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=closeDatabase,indent=0]
 ---- 
 
-=== Deregistering for  Database Changes
+=== De-registering from Database Changes
 
 * Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `deregisterForDatabaseChanges()` function. 
 +
@@ -228,13 +235,16 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 ----
 
 === Try it out
+
 * The app can be tested using a simulator/emulator or device.
 * Log into the app with any username and password. Let's use the values _"demo@example.com"_ and _"password"_ for username and password fields respectively. If this is the first time that the user is signing in, a new Couchbase Lite database will be created. If not, the user's existing database will be opened.
 
 == Document Operations
+
 Once an instance of the Couchbase Lite database is created/opened for the specific user, we can perform basic `Document` functions on the database. In this section, we will walkthrough the code that describes basic `Document` operations
 
 === Reading a Document
+
 Once the user logs in, the user is taken to the "Your Profile" screen. A request is made to load  <<The "User Profile" Document>>  for the user. When the user logs in the very first time, there would be no _user profile_ document for the user.
 
 * Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `getCurrentUserDocId` method. This document Id is constructed by prefixing the term "user::" to the email Id of the user.
