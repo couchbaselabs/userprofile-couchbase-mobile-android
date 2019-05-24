@@ -44,8 +44,8 @@ You can learn more about Couchbase Mobile https://developer.couchbase.com/mobile
 == Prerequisites
 This tutorial assumes familiarity with building Android apps using link:https://www.java.com[Java].
 
-* link:https://developer.android.com/studio[Android Studio 2.3.3 or above]
-* Android device or emulator running API level 19 or above
+* link:https://developer.android.com/studio[Android Studio 3.4 or above]
+* Android device or emulator running API level 21 or above
 * Android SDK 26
 * Android Build Tools 26
 * link:https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[JDK 8]
