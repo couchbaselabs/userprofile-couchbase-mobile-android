@@ -237,7 +237,7 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 === Try it out
 
 * The app can be tested using a simulator/emulator or device.
-* Log into the app with any username and password. Let's use the values _"demo@example.com"_ and _"password"_ for username and password fields respectively. If this is the first time that the user is signing in, a new Couchbase Lite database will be created. If not, the user's existing database will be opened.
+* Log into the app with any username and password. Let's use the values _"+demo@example.com+"_ and _"password"_ for username and password fields respectively. If this is the first time that the user is signing in, a new Couchbase Lite database will be created. If not, the user's existing database will be opened.
 
 == Document Operations
 
@@ -269,18 +269,18 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[tags=docfetch,indent=0]
 ----
-<1> Create an instance the <<UserRecord>> via `Map<String,Object>`.
-<2> Set the `email` property of the UserRecord with the email Id of the logged in user. This value is not editable.
-<3> Fetch a *immutable* copy of the Document from the Database 
-<4> If document exists and is fetched succesfully, we use appropriate type-getters to fetch the various members of the Document based on the property name. Specifically, note the support of the `getBlob` type to fetch the value of a property of type `Blob` 
-<5> Using the newly constructed <<UserRecord>> update the UI via the `showProfile` method (required by the interface link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileContract.java[**UserProfileContract**] which is implemented by link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileActivity.java[**UserProfileActivity**]).
+<1> Create an instance of the <<UserProfile>> via `Map<String,Object>`.
+<2> Set the `email` property of the UserProfile with the email Id of the logged in user. This value is not editable.
+<3> Fetch an *immutable* copy of the Document from the Database
+<4> If the document exists and is fetched succesfully, we use appropriate type-getters to fetch the various members of the Document based on the property name. Specifically, note the support of the `getBlob` type to fetch the value of a property of type `Blob`
+<5> Using the newly constructed <<UserProfile>> update the UI via the `showProfile` method (required by the interface link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileContract.java[**UserProfileContract**] which is implemented by link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileActivity.java[**UserProfileActivity**]).
 
 === Creating / Updating a Document
 
 A <<The "User Profile" Document>> is created for the user when the user taps the "Save" button on the "Profile Screen". 
 The method below applies whether you are creating a document or updating an existing version.
 
-* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserPresenter.java*] file and locate the `saveProfile` method.
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserProfilePresenter.java*] file and locate the `saveProfile` method.
 + 
 [source,java]
 ----
@@ -316,9 +316,10 @@ if (document != null) {
 ----
 
 === Try It Out
-* You should have followed the steps discussed in the "Try It Out" section under <<Create / Open a Database>>
-* Enter a "name" for the user in the Text Entry box and Tap "Save"
-* Confirm that you see a toast message "Succesfully Updated Profile". The first time, you update the profile screen, the `Document` will be created. 
+
+* You should have followed the steps discussed in the "Try It Out" section under <<Create and Open a Database>>.
+* Enter a "name" for the user in the Text Entry box and Tap "Save".
+* Confirm that you see a "Successfully Updated Profile" toast message. The first time you update the profile screen, the `Document` will be created.
 +
 image::{imagesdir}/android/doc_create.png[User Profile Document Creation]
 +
@@ -329,7 +330,7 @@ image::{imagesdir}/android/image_selection.gif[100,400]
 * Tap "Save"
 * Confirm that you see toast message "Succesfully Updated Profile". The `Document` will be updated this time.
 * Tap "Log Out" and log out of the app
-* Log back into the app with the same user email Id and password that you used earlier. In my example, I used _"demo@example.com"_ and _"password"_. (Logging in with those credentials again) 
+* Log back into the app with the same user email Id and password that you used earlier. In my example, I used _"+demo@example.com+"_ and _"password"_. (Logging in with those credentials again)
 * Confirm that you see the profile screen  with the _name_ and _image_ values that you set earlier.  
 +
 image::{imagesdir}/android/log_off_on.gif[200,400]
