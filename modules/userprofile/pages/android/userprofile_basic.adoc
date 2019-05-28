@@ -84,9 +84,9 @@ Once all of the solution bits have been retrieved you can verify the installatio
 
 - This link:{githubsrc}[sample project] already contains the appropriate additions for downloading, and utilizing the Android Couchbase Lite dependency module. However, in the future, to include Couchbase Lite support within an Android app add the the following within link:{githubsrc}/app/build.gradle[app/build.gradle].
 +
-[source,gradle] 
+[source,groovy]
 ----
-  dependencies {
+dependencies {
     ...
 
     implementation 'com.couchbase.lite:couchbase-lite-android-ee:2.5.0'
