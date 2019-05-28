@@ -59,7 +59,7 @@ In this tutorial you will be working with an app that allows users to log in and
 
 User profile information is persisted as a `Document` in the local Couchbase Lite `Database`. When the user logs out and logs back in again, the profile information is loaded from the `Database`.
 
-image::{imagesdir}/android/user_profile.gif[200,400]
+image::{imagesdir}/android/user_profile.gif[User Profile App Demo,400]
 
 == Installation
 
@@ -99,7 +99,7 @@ Once all of the solution bits have been retrieved you can verify the installatio
 * Build and run the project.
 * Verify that you see the login screen.
 +
-image::{imagesdir}/android/user_profile_login.png[User Profile Login Screen Image]
+image::{imagesdir}/android/user_profile_login.png[User Profile Login Screen Image,400]
 
 == Sample App Architecture
 
@@ -109,7 +109,7 @@ image::{imagesdir}/android/mvp_architecture.png[MVP Architecture]
 
 In the Android Studio project, the code is structured by feature. You can select the Android option in the left navigator to view the files by package.
 
-image::{imagesdir}/android/mvp_as.png[MVP Android Studio]
+image::{imagesdir}/android/mvp_as.png[MVP Android Studio,400]
 
 Each package contains 3 different files:
 
