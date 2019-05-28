@@ -151,13 +151,13 @@ For the purpose of this tutorial the _"user"_ `Document` is first stored within 
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/UserProfileActivity.java[tags=userprofile,indent=0]
 ----
 
-The `Map<String, Object>` object functions used as a data storage mechanism between the app's UI and the backing functionality of the Couchbase Lite `Document` object.
+The `Map<String, Object>` object functions are used as a data storage mechanism between the app's UI and the backing functionality of the Couchbase Lite `Document` object.
 
 == Basic Database Operations
 
-In this section, we will do a code walkthrough of the basic Database operations
+In this section, we will do a code walkthrough of the basic Database operations.
 
-=== Create / Open a Database
+=== Create and Open a Database
 
 When a user logs in, we create an empty Couchbase Lite database for the user if one does not exist. 
 
@@ -276,8 +276,9 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 <5> Using the newly constructed <<UserRecord>> update the UI via the `showProfile` method (required by the interface link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileContract.java[**UserProfileContract**] which is implemented by link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileActivity.java[**UserProfileActivity**]).
 
 === Creating / Updating a Document
+
 A <<The "User Profile" Document>> is created for the user when the user taps the "Save" button on the "Profile Screen". 
-The method below applies whether you are creating a document or updating an existing version
+The method below applies whether you are creating a document or updating an existing version.
 
 * Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserPresenter.java*] file and locate the `saveProfile` method.
 + 
@@ -287,14 +288,14 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 ----
 
 * We create a *mutable* instance of the Document. By default, all APIs in Couchbase Lite deal with immutable objects, thereby making them *thread-safe* by design. In order to mutate an object,  you must explicitly get a mutable copy of the object.
-Use appropriate type-setters to set the various properties of the Document 
+Use appropriate type-setters to set the various properties of the Document.
 +
 [source,java]
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[tags=docset,indent=0]
 ----
 +
-* Save the document
+* Save the document.
 +
 [source,java]
 ----
@@ -302,7 +303,9 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 ----
 
 === Deleting a Document
+
 We don't delete a `Document` in this sample app. However, deletion of a document is pretty straightforward and this is how you would do it.
+
 [source,java]
 ----
 var document = database.getDocument(id);
@@ -332,15 +335,14 @@ image::{imagesdir}/android/image_selection.gif[100,400]
 image::{imagesdir}/android/log_off_on.gif[200,400]
 
 == Learn More
+
 Congratulations on completing this tutorial!
 
 This tutorial walked you through a very basic example of how to get up and running with Couchbase Lite as a local-only, standalone embedded data store in your Android app. If you want to learn more about Couchbase Mobile 2.x, check out the following links.
 
 === Further Reading
+
 * link:https://www.couchbase.com/products/mobile[Introduction to Couchbase Mobile]
-
 * link:https://blog.couchbase.com/couchbase-mobile-2-0/[Couchbase Mobile 2.0 Overview]
-
-* link:https://developer.couchbase.com/documentation/mobile/2.0/couchbase-lite/index.html[Couchbase Lite Reference Guide]
-
+* link:https://docs.couchbase.com/couchbase-lite/current/introduction.html[Couchbase Lite Reference Guide]
 * link:https://blog.couchbase.com/category/couchbase-mobile/[Couchbase Mobile Blogs]
