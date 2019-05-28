@@ -269,17 +269,17 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[tags=docfetch,indent=0]
 ----
-<1> Create an instance the <<UserRecord>> via `Map<String,Object>`.
-<2> Set the `email` property of the UserRecord with the email Id of the logged in user. This value is not editable.
-<3> Fetch a *immutable* copy of the Document from the Database 
-<4> If document exists and is fetched succesfully, we use appropriate type-getters to fetch the various members of the Document based on the property name. Specifically, note the support of the `getBlob` type to fetch the value of a property of type `Blob` 
-<5> Using the newly constructed <<UserRecord>> update the UI via the `showProfile` method (required by the interface link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileContract.java[**UserProfileContract**] which is implemented by link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileActivity.java[**UserProfileActivity**]).
+<1> Create an instance of the <<UserProfile>> via `Map<String,Object>`.
+<2> Set the `email` property of the UserProfile with the email Id of the logged in user. This value is not editable.
+<3> Fetch an *immutable* copy of the Document from the Database
+<4> If the document exists and is fetched succesfully, we use appropriate type-getters to fetch the various members of the Document based on the property name. Specifically, note the support of the `getBlob` type to fetch the value of a property of type `Blob`
+<5> Using the newly constructed <<UserProfile>> update the UI via the `showProfile` method (required by the interface link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileContract.java[**UserProfileContract**] which is implemented by link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileActivity.java[**UserProfileActivity**]).
 
 === Creating / Updating a Document
 A <<The "User Profile" Document>> is created for the user when the user taps the "Save" button on the "Profile Screen". 
 The method below applies whether you are creating a document or updating an existing version
 
-* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserPresenter.java*] file and locate the `saveProfile` method.
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserProfilePresenter.java*] file and locate the `saveProfile` method.
 + 
 [source,java]
 ----
@@ -313,9 +313,10 @@ if (document != null) {
 ----
 
 === Try It Out
-* You should have followed the steps discussed in the "Try It Out" section under <<Create / Open a Database>>
-* Enter a "name" for the user in the Text Entry box and Tap "Save"
-* Confirm that you see a toast message "Succesfully Updated Profile". The first time, you update the profile screen, the `Document` will be created. 
+
+* You should have followed the steps discussed in the "Try It Out" section under <<Create and Open a Database>>.
+* Enter a "name" for the user in the Text Entry box and Tap "Save".
+* Confirm that you see a "Successfully Updated Profile" toast message. The first time you update the profile screen, the `Document` will be created.
 +
 image::{imagesdir}/android/doc_create.png[User Profile Document Creation]
 +
