@@ -344,7 +344,5 @@ This tutorial walked you through a very basic example of how to get up and runni
 
 * link:https://www.couchbase.com/products/mobile[Introduction to Couchbase Mobile]
 * link:https://blog.couchbase.com/couchbase-mobile-2-0/[Couchbase Mobile 2.0 Overview]
-
-* link:https://developer.couchbase.com/documentation/mobile/2.0/couchbase-lite/index.html[Couchbase Lite Reference Guide]
-
+* link:https://docs.couchbase.com/couchbase-lite/current/introduction.html[Couchbase Lite Reference Guide]
 * link:https://blog.couchbase.com/category/couchbase-mobile/[Couchbase Mobile Blogs]
