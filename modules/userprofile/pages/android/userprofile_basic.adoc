@@ -4,6 +4,7 @@
 :icons: font
 :quick-uri: https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/
 :page-aliases: tutorials:userprofile-couchbase-mobile-android:standalone/userprofile/userprofile_basic
+:page-hide-view-latest: true
 ifndef::env-site,env-github[]
 :toc: left
 :toclevels: 3
