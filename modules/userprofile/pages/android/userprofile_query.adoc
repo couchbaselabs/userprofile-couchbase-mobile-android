@@ -44,7 +44,7 @@ This is required if you would prefer to pull the source code from GitHub repo.
 ** git can be downloaded from link:https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git-scm.org]
 
 == App Overview
-We will be working with a very simple "User Profile" app. If you had walked through the link:https://developer.couchbase.com/documentation/mobile/2.0/userprofile_basic.html[Fundamentals tutorial], you would quickly realize that this version extends the functionality introduced in the version introduced in that tutorial.
+We will be working with a very simple "User Profile" app. If you had walked through the link:https://docs.couchbase.com/userprofile-couchbase-mobile/standalone/userprofile/android/userprofile_basic.html[Fundamentals tutorial], you would quickly realize that this version extends the functionality introduced in the version introduced in that tutorial.
 
 This app does the following 
 
@@ -317,7 +317,6 @@ Congratulations on completing this tutorial!
 This tutorial walked you through an example of how to use a pre-built Couchbase Lite database. We looked at a simple Query example. Check out the following links for further details on the Query API.
 
 === Further Reading
-* link:https://blog.couchbase.com/xcode-playground-couchbase-mobile/[Xcode Playground For Couchbase Lite 2.0]
 
 * link:https://blog.couchbase.com/sql-for-json-query-interface-couchbase-mobile/[Fundamentals of the Couchbase Lite 2.0 Query API]
 
