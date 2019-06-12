@@ -19,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.couchbase.lite.Blob;
+import com.couchbase.lite.Database;
 import com.couchbase.userprofile.R;
 import com.couchbase.userprofile.login.LoginActivity;
+import com.couchbase.userprofile.universities.UniversitiesActivity;
 import com.couchbase.userprofile.util.DatabaseManager;
 
 import org.w3c.dom.Text;
@@ -34,11 +36,14 @@ import java.util.Map;
 
 public class UserProfileActivity extends AppCompatActivity implements UserProfileContract.View {
 
+    static final int PICK_UNIVERSITY = 2;
+
     private UserProfileContract.UserActionsListener mActionListener;
 
     EditText nameInput;
     EditText emailInput;
     EditText addressInput;
+    TextView universityText;
     ImageView imageView;
 
     @Override
@@ -49,6 +54,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         nameInput = findViewById(R.id.nameInput);
         emailInput = findViewById(R.id.emailInput);
         addressInput = findViewById(R.id.addressInput);
+        universityText = findViewById(R.id.universityText);
         imageView = findViewById(R.id.imageView);
 
         mActionListener = new UserProfilePresenter(this);
@@ -85,9 +91,19 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
                 }
             }
         }
+        else if (requestCode == PICK_UNIVERSITY && resultCode == Activity.RESULT_OK) {
+            universityText.setText(data.getStringExtra("result"));
+        }
+    }
+
+    public void onUniversityTapped(View view) {
+        Intent intent = new Intent(getApplicationContext(), UniversitiesActivity.class);
+        intent.setAction(Intent.ACTION_PICK);
+        startActivityForResult(intent, PICK_UNIVERSITY);
     }
 
     public void onLogoutTapped(View view) {
+        DatabaseManager.getSharedInstance().closePrebuiltDatabase();
         DatabaseManager.getSharedInstance().closeDatabaseForUser();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -100,6 +116,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         profile.put("name", nameInput.getText().toString());
         profile.put("email", emailInput.getText().toString());
         profile.put("address", addressInput.getText().toString());
+        profile.put("university", universityText.getText().toString());
 
         byte[] imageViewBytes = getImageViewBytes();
 
@@ -136,6 +153,12 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         nameInput.setText((String)profile.get("name"));
         emailInput.setText((String)profile.get("email"));
         addressInput.setText((String)profile.get("address"));
+
+        String university = (String)profile.get("university");
+
+        if (university != null && !university.isEmpty()) {
+            universityText.setText(university);
+        }
 
         Blob imageBlob = (Blob)profile.get("imageData");
 

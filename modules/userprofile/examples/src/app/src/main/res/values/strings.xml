@@ -4,4 +4,7 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="lookup">Lookup</string>
+    <string name="name">Name</string>
+    <string name="country_optional">Country (optional)</string>
 </resources>

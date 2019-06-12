@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        
+        <SearchView
+            android:id="@+id/nameSearchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:queryHint="@string/name" />
+
+        <SearchView
+            android:id="@+id/countrySearchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:queryHint="@string/country_optional" />
+
+        <Button
+
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:onClick="onLookupTapped"
+            android:text="@string/lookup"/>
+        
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/universityList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

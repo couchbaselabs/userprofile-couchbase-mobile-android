@@ -22,7 +22,7 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
     public void fetchProfile()
     // end::fetchProfile[]
     {
-        Database database = DatabaseManager.getDatabase();
+        Database database = DatabaseManager.getUserProfileDatabase();
 
         // tag::docfetch[]
         String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
@@ -39,6 +39,7 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
                 profile.put("name", document.getString("name")); // <4>
                 profile.put("address", document.getString("address")); // <4>
                 profile.put("imageData", document.getBlob("imageData")); // <4>
+                profile.put("university", document.getString("university"));
             }
 
             mUserProfileView.showProfile(profile); // <5>
@@ -50,7 +51,7 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
     public void saveProfile(Map<String,Object> profile)
     // end::saveProfile[]
     {
-        Database database = DatabaseManager.getDatabase();
+        Database database = DatabaseManager.getUserProfileDatabase();
 
         String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
 
@@ -65,6 +66,5 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
-
     }
 }
