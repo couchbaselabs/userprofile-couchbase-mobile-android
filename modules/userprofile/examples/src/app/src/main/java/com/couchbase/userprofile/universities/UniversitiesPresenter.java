@@ -24,33 +24,27 @@ public class UniversitiesPresenter implements UniversitiesContract.UserActionsLi
         this.mUniversitiesView = mUniversitiesView;
     }
 
-    // tag::fetchUniversities[]
     public void fetchUniversities(String name) {
         fetchUniversities(name, null);
     }
 
-    public void fetchUniversities(String name, String country)
-    // end::fetchUniversities[]
-    {
+    public void fetchUniversities(String name, String country) {
         Database database = DatabaseManager.getUniversityDatabase();
 
-        // tag::buildquery[]
-        Expression whereQueryExpression = Function.lower(Expression.property("name")).like(Expression.string("%" + name.toLowerCase() + "%")); // <1>
+        Expression whereQueryExpression = Function.lower(Expression.property("name")).like(Expression.string("%" + name.toLowerCase() + "%"));
 
         if (country != null && !country.isEmpty()) {
-            Expression countryQueryExpression = Function.lower(Expression.property("country")).like(Expression.string("%" + country.toLowerCase() + "%")); // <2>
+            Expression countryQueryExpression = Function.lower(Expression.property("country")).like(Expression.string("%" + country.toLowerCase() + "%"));
 
-            whereQueryExpression = whereQueryExpression.and(countryQueryExpression); // <3>
+            whereQueryExpression = whereQueryExpression.and(countryQueryExpression);
         }
 
-        Query query = QueryBuilder.select(SelectResult.all()) // <4>
-                                  .from(DataSource.database(database)) // <5>
-                                  .where(whereQueryExpression); // <6>
-        // end::buildquery[]
+        Query query = QueryBuilder.select(SelectResult.all())
+                                  .from(DataSource.database(database))
+                                  .where(whereQueryExpression);
 
         ResultSet rows = null;
 
-        // tag::runquery[]
         try {
             rows = query.execute();
         } catch (CouchbaseLiteException e) {
@@ -64,15 +58,14 @@ public class UniversitiesPresenter implements UniversitiesContract.UserActionsLi
 
         while((row = rows.next()) != null) {
             // tag::university[]
-            Map<String, Object> properties = new HashMap<>(); // <1>
-            properties.put("name", row.getDictionary("universities").getString("name")); // <2>
-            properties.put("country", row.getDictionary("universities").getString("country")); // <2>
-            properties.put("web_pages", row.getDictionary("universities").getArray("web_pages")); // <3>
+            Map<String, Object> properties = new HashMap<>();
+            properties.put("name", row.getDictionary("universities").getString("name"));
+            properties.put("country", row.getDictionary("universities").getString("country"));
+            properties.put("web_pages", row.getDictionary("universities").getArray("web_pages"));
             // end::university[]
 
             data.add(properties);
         }
-        // end::runquery[]
 
         mUniversitiesView.showUniversities(data);
     }

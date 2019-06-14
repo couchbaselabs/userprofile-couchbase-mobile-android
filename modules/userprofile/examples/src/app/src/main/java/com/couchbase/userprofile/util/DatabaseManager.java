@@ -28,6 +28,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -41,7 +44,7 @@ public class DatabaseManager {
 
     private static DatabaseManager instance = null;
 
-    public static String syncGatewayEndpoint = "ws://10.0.2.2:4984/travel-sample";
+    public static String syncGatewayEndpoint = "ws://10.0.2.2:4984";
 
     private ListenerToken listenerToken;
     public String currentUser = null;
@@ -147,7 +150,10 @@ public class DatabaseManager {
         });
     }
 
-    public static void startPushAndPullReplicationForCurrentUser(String username, String password) {
+    // tag::startPushAndPullReplicationForCurrentUser[]
+    public static void startPushAndPullReplicationForCurrentUser(String username, String password)
+    // end::startPushAndPullReplicationForCurrentUser[]
+    {
         URI url = null;
         try {
             url = new URI(String.format("%s/%s", syncGatewayEndpoint, userProfileDbName));
@@ -155,12 +161,19 @@ public class DatabaseManager {
             e.printStackTrace();
         }
 
-        ReplicatorConfiguration config = new ReplicatorConfiguration(userprofileDatabase, new URLEndpoint(url));
-        config.setReplicatorType(ReplicatorConfiguration.ReplicatorType.PUSH_AND_PULL);
-        config.setContinuous(true);
-        config.setAuthenticator(new BasicAuthenticator(username, password));
+        // tag::replicationconfig[]
+        ReplicatorConfiguration config = new ReplicatorConfiguration(userprofileDatabase, new URLEndpoint(url)); // <1>
+        config.setReplicatorType(ReplicatorConfiguration.ReplicatorType.PUSH_AND_PULL); // <2>
+        config.setContinuous(true); // <3>
+        config.setAuthenticator(new BasicAuthenticator(username, password)); // <4>
+        config.setChannels(Arrays.asList("channel." + username)); // <5>
+        // end::replicationconfig[]
 
+        // tag::replicationinit[]
         replicator = new Replicator(config);
+        // end::replicationinit[]
+
+        // tag::replicationlistener[]
         replicatorListenerToken = replicator.addChangeListener(new ReplicatorChangeListener() {
             @Override
             public void changed(ReplicatorChange change) {
@@ -170,17 +183,25 @@ public class DatabaseManager {
                 }
                 if (change.getReplicator().getStatus().getActivityLevel().equals(Replicator.ActivityLevel.STOPPED)
                         || change.getReplicator().getStatus().getActivityLevel().equals(Replicator.ActivityLevel.OFFLINE)) {
-                    Log.e("Rep scheduler  Log", "ReplicationTag Stopped");
+                    Log.e("Rep Scheduler  Log", "ReplicationTag Stopped");
                 }
             }
         });
+        // end::replicationlistener[]
 
+        // tag::replicationstart[]
         replicator.start();
+        // end::replicationstart[]
     }
 
-    public static void stopAllReplicationForCurrentUser() {
+    // tag::stopAllReplicationForCurrentUser[]
+    public static void stopAllReplicationForCurrentUser()
+    // end::stopAllReplicationForCurrentUser[]
+    {
+        // tag::replicationstop[]
         replicator.removeChangeListener(replicatorListenerToken);
         replicator.stop();
+        // end::replicationstop[]
     }
 
     public void closeDatabaseForUser()

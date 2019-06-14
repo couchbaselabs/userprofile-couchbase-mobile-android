@@ -26,41 +26,48 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
         this.mUserProfileView = mUserProfileView;
     }
 
-    public void fetchProfile() {
+    // tag::fetchProfile[]
+    public void fetchProfile()
+    // end::fetchProfile[]
+    {
         Database database = DatabaseManager.getUserProfileDatabase();
 
         String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
 
+        // tag::livequerybuilder[]
         Query query = QueryBuilder
                         .select(SelectResult.all())
                         .from(DataSource.database(database))
-                        .where(Meta.id.equalTo(Expression.string(docId)));
+                        .where(Meta.id.equalTo(Expression.string(docId))); // <1>
+        // end::livequerybuilder[]
 
+        // tag::livequery[]
         query.addChangeListener(new QueryChangeListener() {
 
             @Override
-            public void changed(QueryChange change) {
+            public void changed(QueryChange change) { // <1>
                 ResultSet rows = change.getResults();
 
                 Result row = null;
-                Map<String, Object> profile = new HashMap<>();
+                Map<String, Object> profile = new HashMap<>(); // <2>
 
                 profile.put("email", DatabaseManager.getSharedInstance().currentUser);
 
                 while ((row = rows.next()) != null) {
-                    Dictionary dictionary = row.getDictionary("userprofiles");
+                    Dictionary dictionary = row.getDictionary("userprofiles"); // <3>
 
                     if (dictionary != null) {
                         profile.put("name", dictionary.getString("name")); // <4>
                         profile.put("address", dictionary.getString("address")); // <4>
                         profile.put("imageData", dictionary.getBlob("imageData")); // <4>
-                        profile.put("university", dictionary.getString("university"));
+                        profile.put("university", dictionary.getString("university")); // <4>
                     }
                 }
 
                 mUserProfileView.showProfile(profile);
             }
         });
+        // end::livequery[]
 
         try {
             query.execute();

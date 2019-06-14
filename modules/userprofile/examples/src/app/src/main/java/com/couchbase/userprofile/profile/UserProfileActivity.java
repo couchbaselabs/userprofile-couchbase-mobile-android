@@ -112,6 +112,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
     }
 
     public void onSaveTapped(View view) {
+        // tag::userprofile[]
         Map<String, Object> profile = new HashMap<>();
         profile.put("name", nameInput.getText().toString());
         profile.put("email", emailInput.getText().toString());
@@ -123,6 +124,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         if (imageViewBytes != null) {
             profile.put("imageData", new com.couchbase.lite.Blob("image/jpeg", imageViewBytes));
         }
+        // end::userprofile[]
 
         mActionListener.saveProfile(profile);
 
