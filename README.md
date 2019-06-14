@@ -7,3 +7,14 @@ Hosts this README
 ### ["**standalone**" branch](https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/standalone)
 
 This branch hosts app that demonstrates basic `Database` and `Document` operations using Couchbase Lite as a standalone, embedded database within your mobile app. 
+
+Check out the [Fundamentals Tutorial]() for more details!
+
+### ["**query**" branch](https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/query)
+
+This branch hosts an app that demonstrates basic query and full-text-search operations using Couhbase Lite as a standalone, embedded database within your mobile app.
+
+### ["**sync**" branch](https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/sync)
+
+This branch hosts an app that supports syncing of documents between Couchbase Lite database and remote Sync Gateway. 
+
