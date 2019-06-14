@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.renderscript.Sampler;
 import android.util.Log;
 
+import com.couchbase.lite.BasicAuthenticator;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.DatabaseChange;
@@ -14,12 +15,19 @@ import com.couchbase.lite.Document;
 import com.couchbase.lite.Expression;
 import com.couchbase.lite.IndexBuilder;
 import com.couchbase.lite.ListenerToken;
+import com.couchbase.lite.Replicator;
+import com.couchbase.lite.ReplicatorChange;
+import com.couchbase.lite.ReplicatorChangeListener;
+import com.couchbase.lite.ReplicatorConfiguration;
+import com.couchbase.lite.URLEndpoint;
 import com.couchbase.lite.ValueIndexItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.concurrent.Executor;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -27,10 +35,19 @@ import java.util.zip.ZipInputStream;
 public class DatabaseManager {
     private static Database userprofileDatabase;
     private static Database universityDatabase;
+
+    private static String userProfileDbName = "userprofiles";
+    private static String universityDbName = "universities";
+
     private static DatabaseManager instance = null;
+
+    public static String syncGatewayEndpoint = "ws://10.0.2.2:4984/travel-sample";
+
     private ListenerToken listenerToken;
-    public  String currentUser = null;
-    private static String dbName = "userprofiles";
+    public String currentUser = null;
+
+    private static Replicator replicator;
+    private static ListenerToken replicatorListenerToken;
 
     protected DatabaseManager() {
 
@@ -49,55 +66,40 @@ public class DatabaseManager {
     }
     public static Database getUniversityDatabase() { return universityDatabase; }
 
-    // tag::userProfileDocId[]
     public String getCurrentUserDocId() {
         return "user::" + currentUser;
     }
-    // end::userProfileDocId[]
 
-    // tag::openOrCreateDatabase[]
     public void openOrCreateDatabaseForUser(Context context, String username)
-    // end::openOrCreateDatabase[]
     {
-        // tag::databaseConfiguration[]
         DatabaseConfiguration config = new DatabaseConfiguration(context);
         config.setDirectory(String.format("%s/%s", context.getFilesDir(), username));
-        // end::databaseConfiguration[]
 
         currentUser = username;
 
         try {
-            // tag::createDatabase[]
-            userprofileDatabase = new Database(dbName, config);
-            // end::createDatabase[]
+            userprofileDatabase = new Database(userProfileDbName, config);
             registerForDatabaseChanges();
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }
     }
 
-    // tag::openPrebuiltDatabase[]
     public void openPrebuiltDatabase(Context context)
-    // end::openPrebuiltDatabase[]
     {
         File dbFile = new File(context.getFilesDir(), "universities.cblite2");
 
-        // tag::prebuiltdbconfig[]
         DatabaseConfiguration config = new DatabaseConfiguration(context);
         config.setDirectory(context.getFilesDir().toString());
-        // end::prebuiltdbconfig[]
 
         Log.i("CB-Update", "Will open Prebuilt DB  at path " + config.getDirectory());
 
-        // tag::prebuiltdbopen[]
         if (!dbFile.exists()) {
             AssetManager assetManager = context.getAssets();
             try {
                 File path = new File(context.getFilesDir().toString());
-
                 unzip(assetManager.open("universities.zip"), path);
-
-                universityDatabase = new Database("universities", config);
+                universityDatabase = new Database(universityDbName, config);
                 createUniversityDatabaseIndexes();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -107,15 +109,13 @@ public class DatabaseManager {
         }
         else {
             try {
-                universityDatabase = new Database("universities", config);
+                universityDatabase = new Database(universityDbName, config);
             } catch (CouchbaseLiteException e) {
                 e.printStackTrace();
             }
         }
-        // end::prebuiltdbopen[]
     }
 
-    // tag::createUniversityDatabaseIndexes[]
     private void createUniversityDatabaseIndexes() {
         try {
             universityDatabase.createIndex("nameLocationIndex", IndexBuilder.valueIndex(ValueIndexItem.expression(Expression.property("name")),
@@ -124,13 +124,9 @@ public class DatabaseManager {
             e.printStackTrace();
         }
     }
-    // end::createUniversityDatabaseIndexes[]
 
-    // tag::registerForDatabaseChanges[]
     private void registerForDatabaseChanges()
-    // end::registerForDatabaseChanges[]
     {
-        // tag::addDatabaseChangelistener[]
         // Add database change listener
         listenerToken = userprofileDatabase.addChangeListener(new DatabaseChangeListener() {
             @Override
@@ -149,7 +145,42 @@ public class DatabaseManager {
                 }
             }
         });
-        // end::addDatabaseChangelistener[]
+    }
+
+    public static void startPushAndPullReplicationForCurrentUser(String username, String password) {
+        URI url = null;
+        try {
+            url = new URI(String.format("%s/%s", syncGatewayEndpoint, userProfileDbName));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        ReplicatorConfiguration config = new ReplicatorConfiguration(userprofileDatabase, new URLEndpoint(url));
+        config.setReplicatorType(ReplicatorConfiguration.ReplicatorType.PUSH_AND_PULL);
+        config.setContinuous(true);
+        config.setAuthenticator(new BasicAuthenticator(username, password));
+
+        replicator = new Replicator(config);
+        replicatorListenerToken = replicator.addChangeListener(new ReplicatorChangeListener() {
+            @Override
+            public void changed(ReplicatorChange change) {
+
+                if (change.getReplicator().getStatus().getActivityLevel().equals(Replicator.ActivityLevel.IDLE)) {
+                    Log.e("Replication Comp Log", "Scheduler Completed");
+                }
+                if (change.getReplicator().getStatus().getActivityLevel().equals(Replicator.ActivityLevel.STOPPED)
+                        || change.getReplicator().getStatus().getActivityLevel().equals(Replicator.ActivityLevel.OFFLINE)) {
+                    Log.e("Rep scheduler  Log", "ReplicationTag Stopped");
+                }
+            }
+        });
+
+        replicator.start();
+    }
+
+    public static void stopAllReplicationForCurrentUser() {
+        replicator.removeChangeListener(replicatorListenerToken);
+        replicator.stop();
     }
 
     public void closeDatabaseForUser()
@@ -165,16 +196,12 @@ public class DatabaseManager {
         }
     }
 
-    // tag::closePrebuiltDatabase[]
     public void closePrebuiltDatabase()
-    // end::closePrebuiltDatabase[]
     {
         try {
             if (userprofileDatabase != null) {
                 deregisterForDatabaseChanges();
-                // tag::prebuiltdbclose[]
                 userprofileDatabase.close();
-                // end::prebuiltdbclose[]
                 userprofileDatabase = null;
             }
         } catch (CouchbaseLiteException e) {
@@ -182,14 +209,10 @@ public class DatabaseManager {
         }
     }
 
-    // tag::deregisterForDatabaseChanges[]
     private void deregisterForDatabaseChanges()
-    // end::deregisterForDatabaseChanges[]
     {
         if (listenerToken != null) {
-            // tag::removedbchangelistener[]
             userprofileDatabase.removeChangeListener(listenerToken);
-            // end::removedbchangelistener[]
         }
     }
 

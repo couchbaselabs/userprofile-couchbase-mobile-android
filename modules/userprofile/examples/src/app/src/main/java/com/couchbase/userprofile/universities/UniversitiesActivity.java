@@ -54,7 +54,6 @@ public class UniversitiesActivity extends AppCompatActivity implements Universit
 
     public void onLookupTapped(View view) {
         if (mNameSearchView.getQuery().length() > 0) {
-
             if (mCountrySearchView.getQuery().length() > 0) {
                 mActionListener.fetchUniversities(mNameSearchView.getQuery().toString(), mCountrySearchView.getQuery().toString());
             }

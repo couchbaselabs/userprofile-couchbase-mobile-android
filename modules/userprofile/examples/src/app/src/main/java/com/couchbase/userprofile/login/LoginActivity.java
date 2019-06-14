@@ -28,9 +28,13 @@ public class LoginActivity extends AppCompatActivity {
         if (usernameInput.length() > 0 && passwordInput.length() > 0) {
             DatabaseManager dbMgr = DatabaseManager.getSharedInstance();
 
-            dbMgr.openPrebuiltDatabase(getApplicationContext());
+            String username = usernameInput.getText().toString();
+            String password = passwordInput.getText().toString();
 
-            dbMgr.openOrCreateDatabaseForUser(getApplicationContext(), usernameInput.getText().toString());
+            dbMgr.openPrebuiltDatabase(getApplicationContext());
+            dbMgr.openOrCreateDatabaseForUser(getApplicationContext(), username);
+
+            DatabaseManager.startPushAndPullReplicationForCurrentUser(username, password);
 
             Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

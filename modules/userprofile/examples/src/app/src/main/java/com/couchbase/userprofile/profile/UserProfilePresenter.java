@@ -1,11 +1,19 @@
 package com.couchbase.userprofile.profile;
 
-import android.provider.ContactsContract;
-
 import com.couchbase.lite.CouchbaseLiteException;
+import com.couchbase.lite.DataSource;
 import com.couchbase.lite.Database;
-import com.couchbase.lite.Document;
+import com.couchbase.lite.Dictionary;
+import com.couchbase.lite.Expression;
+import com.couchbase.lite.Meta;
 import com.couchbase.lite.MutableDocument;
+import com.couchbase.lite.Query;
+import com.couchbase.lite.QueryBuilder;
+import com.couchbase.lite.QueryChange;
+import com.couchbase.lite.QueryChangeListener;
+import com.couchbase.lite.Result;
+import com.couchbase.lite.ResultSet;
+import com.couchbase.lite.SelectResult;
 import com.couchbase.userprofile.util.DatabaseManager;
 
 import java.util.HashMap;
@@ -18,51 +26,57 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
         this.mUserProfileView = mUserProfileView;
     }
 
-    // tag::fetchProfile[]
-    public void fetchProfile()
-    // end::fetchProfile[]
-    {
+    public void fetchProfile() {
         Database database = DatabaseManager.getUserProfileDatabase();
 
-        // tag::docfetch[]
         String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
 
-        if (database != null) {
+        Query query = QueryBuilder
+                        .select(SelectResult.all())
+                        .from(DataSource.database(database))
+                        .where(Meta.id.equalTo(Expression.string(docId)));
 
-            Map<String, Object> profile = new HashMap<>(); // <1>
+        query.addChangeListener(new QueryChangeListener() {
 
-            profile.put("email", DatabaseManager.getSharedInstance().currentUser); // <2>
+            @Override
+            public void changed(QueryChange change) {
+                ResultSet rows = change.getResults();
 
-            Document document = database.getDocument(docId); // <3>
+                Result row = null;
+                Map<String, Object> profile = new HashMap<>();
 
-            if (document != null) {
-                profile.put("name", document.getString("name")); // <4>
-                profile.put("address", document.getString("address")); // <4>
-                profile.put("imageData", document.getBlob("imageData")); // <4>
-                profile.put("university", document.getString("university"));
+                profile.put("email", DatabaseManager.getSharedInstance().currentUser);
+
+                while ((row = rows.next()) != null) {
+                    Dictionary dictionary = row.getDictionary("userprofiles");
+
+                    if (dictionary != null) {
+                        profile.put("name", dictionary.getString("name")); // <4>
+                        profile.put("address", dictionary.getString("address")); // <4>
+                        profile.put("imageData", dictionary.getBlob("imageData")); // <4>
+                        profile.put("university", dictionary.getString("university"));
+                    }
+                }
+
+                mUserProfileView.showProfile(profile);
             }
-
-            mUserProfileView.showProfile(profile); // <5>
-        }
-        // end::docfetch[]
-    }
-
-    // tag::saveProfile[]
-    public void saveProfile(Map<String,Object> profile)
-    // end::saveProfile[]
-    {
-        Database database = DatabaseManager.getUserProfileDatabase();
-
-        String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
-
-        // tag::docset[]
-        MutableDocument mutableDocument = new MutableDocument(docId, profile);
-        // end::docset[]
+        });
 
         try {
-            // tag::docsave[]
+            query.execute();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveProfile(Map<String,Object> profile)
+    {
+        Database database = DatabaseManager.getUserProfileDatabase();
+        String docId = DatabaseManager.getSharedInstance().getCurrentUserDocId();
+        MutableDocument mutableDocument = new MutableDocument(docId, profile);
+
+        try {
             database.save(mutableDocument);
-            // end::docsave[]
         } catch (CouchbaseLiteException e) {
             e.printStackTrace();
         }

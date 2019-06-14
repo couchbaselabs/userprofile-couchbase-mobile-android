@@ -3,7 +3,6 @@ package com.couchbase.userprofile.universities;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.DataSource;
 import com.couchbase.lite.Database;
-import com.couchbase.lite.Dictionary;
 import com.couchbase.lite.Expression;
 import com.couchbase.lite.Function;
 import com.couchbase.lite.Query;
@@ -11,10 +10,7 @@ import com.couchbase.lite.QueryBuilder;
 import com.couchbase.lite.ResultSet;
 import com.couchbase.lite.Result;
 import com.couchbase.lite.SelectResult;
-import com.couchbase.lite.Where;
 import com.couchbase.userprofile.util.DatabaseManager;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
