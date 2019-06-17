@@ -61,11 +61,11 @@ image::{imagesdir}/android/university_app_overview.gif[App Overview]
 
 ==== Option 1 : Git Clone
 
-- Clone the *_standalone_* branch of the `User Profile Demo` solution from GitHub. Assuming that you have link:https://git-scm.com/downloads[Git] installed you can use the following command to clone the solution:
+- Clone the *_query_* branch of the `User Profile Demo` solution from GitHub. Assuming that you have link:https://git-scm.com/downloads[Git] installed you can use the following command to clone the solution:
 +
 [source,bash] 
 ----
-  git clone -b standalone https://github.com/couchbaselabs/userprofile-couchbase-mobile-android.git
+  git clone -b query https://github.com/couchbaselabs/userprofile-couchbase-mobile-android.git
 ---- 
 
 ==== Option 2 : Download .zip
