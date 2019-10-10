@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.renderscript.Sampler;
 import android.util.Log;
 
+import com.couchbase.lite.CouchbaseLite;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.DatabaseChange;
@@ -30,7 +31,7 @@ public class DatabaseManager {
     private static DatabaseManager instance = null;
     private ListenerToken listenerToken;
     public  String currentUser = null;
-    private static String dbName = "userprofiles";
+    private static String dbName = "userprofile";
 
     protected DatabaseManager() {
 
@@ -49,6 +50,12 @@ public class DatabaseManager {
     }
     public static Database getUniversityDatabase() { return universityDatabase; }
 
+    // tag::initCouchbaseLite[]
+    public String initCouchbaseLite(Context context) {
+        CouchbaseLite.init(context);
+    }
+    // end::initCouchbaseLite[]
+
     // tag::userProfileDocId[]
     public String getCurrentUserDocId() {
         return "user::" + currentUser;
@@ -60,7 +67,7 @@ public class DatabaseManager {
     // end::openOrCreateDatabase[]
     {
         // tag::databaseConfiguration[]
-        DatabaseConfiguration config = new DatabaseConfiguration(context);
+        DatabaseConfiguration config = new DatabaseConfiguration();
         config.setDirectory(String.format("%s/%s", context.getFilesDir(), username));
         // end::databaseConfiguration[]
 
@@ -83,7 +90,7 @@ public class DatabaseManager {
         File dbFile = new File(context.getFilesDir(), "universities.cblite2");
 
         // tag::prebuiltdbconfig[]
-        DatabaseConfiguration config = new DatabaseConfiguration(context);
+        DatabaseConfiguration config = new DatabaseConfiguration();
         config.setDirectory(context.getFilesDir().toString());
         // end::prebuiltdbconfig[]
 
