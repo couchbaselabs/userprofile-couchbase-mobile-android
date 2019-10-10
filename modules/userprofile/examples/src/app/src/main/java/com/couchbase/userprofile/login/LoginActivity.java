@@ -1,5 +1,6 @@
 package com.couchbase.userprofile.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,9 +31,10 @@ public class LoginActivity extends AppCompatActivity {
 
             String username = usernameInput.getText().toString();
             String password = passwordInput.getText().toString();
-
-            dbMgr.openPrebuiltDatabase(getApplicationContext());
-            dbMgr.openOrCreateDatabaseForUser(getApplicationContext(), username);
+            Context context = getApplicationContext();
+            dbMgr.initializeCouchbaseLite(context);
+            dbMgr.openPrebuiltDatabase(context);
+            dbMgr.openOrCreateDatabaseForUser(context,username);
 
             DatabaseManager.startPushAndPullReplicationForCurrentUser(username, password);
 

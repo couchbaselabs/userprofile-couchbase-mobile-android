@@ -6,6 +6,7 @@ import android.renderscript.Sampler;
 import android.util.Log;
 
 import com.couchbase.lite.BasicAuthenticator;
+import com.couchbase.lite.CouchbaseLite;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.DatabaseChange;
@@ -39,7 +40,7 @@ public class DatabaseManager {
     private static Database userprofileDatabase;
     private static Database universityDatabase;
 
-    private static String userProfileDbName = "userprofiles";
+    private static String userProfileDbName = "userprofile";
     private static String universityDbName = "universities";
 
     private static DatabaseManager instance = null;
@@ -58,6 +59,7 @@ public class DatabaseManager {
 
     public static DatabaseManager getSharedInstance() {
         if (instance == null) {
+
             instance = new DatabaseManager();
         }
 
@@ -73,14 +75,20 @@ public class DatabaseManager {
         return "user::" + currentUser;
     }
 
+    public void initializeCouchbaseLite(Context context)
+    {
+        CouchbaseLite.init(context);
+    }
+
     public void openOrCreateDatabaseForUser(Context context, String username)
     {
-        DatabaseConfiguration config = new DatabaseConfiguration(context);
+        DatabaseConfiguration config = new DatabaseConfiguration();
         config.setDirectory(String.format("%s/%s", context.getFilesDir(), username));
 
         currentUser = username;
 
         try {
+
             userprofileDatabase = new Database(userProfileDbName, config);
             registerForDatabaseChanges();
         } catch (CouchbaseLiteException e) {
@@ -91,8 +99,7 @@ public class DatabaseManager {
     public void openPrebuiltDatabase(Context context)
     {
         File dbFile = new File(context.getFilesDir(), "universities.cblite2");
-
-        DatabaseConfiguration config = new DatabaseConfiguration(context);
+        DatabaseConfiguration config = new DatabaseConfiguration();
         config.setDirectory(context.getFilesDir().toString());
 
         Log.i("CB-Update", "Will open Prebuilt DB  at path " + config.getDirectory());

@@ -41,7 +41,7 @@ This tutorial assumes familiarity with building link:https://www.android.com/[An
 
 * If you are unfamiliar with the basics of Couchbase Lite, it is recommended that you walk through the following tutorials
 +
-** link:https://docs.couchbase.com/userprofile-couchbase-mobile/standalone/userprofile/android/userprofile_basic.html[Fundamentals] of using Couchbase Lite 2.0 as a standalone database
+** link:https://docs.couchbase.com/userprofile-couchbase-mobile/standalone/userprofile/android/userprofile_basic.html[Fundamentals] of using Couchbase Lite 2.6 as a standalone database
 ** link:https://docs.couchbase.com/userprofile-couchbase-mobile/query/userprofile/android/userprofile_query.html[Query Basics] with a prebuilt version of Couchbase Lite database
 
 * link:https://developer.android.com/studio[Android Studio 3.4 or above]

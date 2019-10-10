@@ -99,7 +99,6 @@
                         android:layout_height="wrap_content"
                         android:padding="5dp"
                         android:text="Select University"
-                        android:textColor="@color/design_default_color_primary"
                         android:onClick="onUniversityTapped" />
                 </TableRow>
             </TableLayout>
