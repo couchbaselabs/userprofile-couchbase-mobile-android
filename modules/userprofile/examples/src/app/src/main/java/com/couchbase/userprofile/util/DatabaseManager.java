@@ -3,6 +3,7 @@ package com.couchbase.userprofile.util;
 import android.content.Context;
 import android.util.Log;
 
+import com.couchbase.lite.CouchbaseLite;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.DatabaseChange;
@@ -18,7 +19,7 @@ public class DatabaseManager {
     private static DatabaseManager instance = null;
     private ListenerToken listenerToken;
     public  String currentUser = null;
-    private static String dbName = "userprofiles";
+    private static String dbName = "userprofile";
 
     protected DatabaseManager() {
 
@@ -36,6 +37,12 @@ public class DatabaseManager {
         return database;
     }
 
+    // tag::initCouchbaseLite[]
+    public void initCouchbaseLite(Context context) {
+        CouchbaseLite.init(context);
+    }
+    // end::initCouchbaseLite[]
+
     // tag::userProfileDocId[]
     public String getCurrentUserDocId() {
         return "user::" + currentUser;
@@ -47,7 +54,7 @@ public class DatabaseManager {
     // end::openOrCreateDatabase[]
     {
         // tag::databaseConfiguration[]
-        DatabaseConfiguration config = new DatabaseConfiguration(context);
+        DatabaseConfiguration config = new DatabaseConfiguration();
         config.setDirectory(String.format("%s/%s", context.getFilesDir(), username));
         // end::databaseConfiguration[]
 

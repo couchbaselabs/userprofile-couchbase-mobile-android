@@ -89,7 +89,7 @@ Once all of the solution bits have been retrieved you can verify the installatio
 dependencies {
     ...
 
-    implementation 'com.couchbase.lite:couchbase-lite-android-ee:2.5.0'
+    implementation 'com.couchbase.lite:couchbase-lite-android-ee:2.6.0'
 }
 ----
 
@@ -156,6 +156,17 @@ The `Map<String, Object>` object functions are used as a data storage mechanism 
 == Basic Database Operations
 
 In this section, we will do a code walkthrough of the basic Database operations.
+
+=== initialize Couchbase Lite 
+
+Before you can start using Couchbase Lite on Android, you would have to initialize it. Starting with v2.6, Couchbase Lite needs to be initialized with appropriate Android Application Context. Prior to 2.6, you would specify this in the `DatabaseConfiguration`
+
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `initCouchbaseLite` method. 
++
+[source,java]
+----
+include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=initCouchbaseLite,indent=0]
+----
 
 === Create and Open a Database
 
