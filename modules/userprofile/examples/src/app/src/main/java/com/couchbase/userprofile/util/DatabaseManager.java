@@ -12,6 +12,7 @@ import com.couchbase.lite.DatabaseChange;
 import com.couchbase.lite.DatabaseChangeListener;
 import com.couchbase.lite.DatabaseConfiguration;
 import com.couchbase.lite.Document;
+import com.couchbase.lite.EncryptionKey;
 import com.couchbase.lite.Expression;
 import com.couchbase.lite.IndexBuilder;
 import com.couchbase.lite.ListenerToken;
@@ -51,8 +52,9 @@ public class DatabaseManager {
     public static Database getUniversityDatabase() { return universityDatabase; }
 
     // tag::initCouchbaseLite[]
-    public String initCouchbaseLite(Context context) {
+    public void initCouchbaseLite(Context context) {
         CouchbaseLite.init(context);
+
     }
     // end::initCouchbaseLite[]
 
@@ -68,7 +70,9 @@ public class DatabaseManager {
     {
         // tag::databaseConfiguration[]
         DatabaseConfiguration config = new DatabaseConfiguration();
+        config.setEncryptionKey(new EncryptionKey("PASSWORD"));
         config.setDirectory(String.format("%s/%s", context.getFilesDir(), username));
+        Log.i("PRIYA", config.getDirectory());
         // end::databaseConfiguration[]
 
         currentUser = username;
