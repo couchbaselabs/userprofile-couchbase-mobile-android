@@ -71,8 +71,6 @@ public class DatabaseManager {
         // tag::databaseConfiguration[]
         DatabaseConfiguration config = new DatabaseConfiguration();
         config.setEncryptionKey(new EncryptionKey("PASSWORD"));
-        config.setDirectory(String.format("%s/%s", context.getFilesDir(), username));
-        Log.i("PRIYA", config.getDirectory());
         // end::databaseConfiguration[]
 
         currentUser = username;
