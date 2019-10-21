@@ -117,7 +117,7 @@ There are several link:https://developer.couchbase.com/documentation/mobile/2.0/
 === Download the Installer
 * Download the latest Sync Gateway 2.x installer from link:https://www.couchbase.com/downloads#couchbase-mobile[Downloads] page. Be sure to select the *"Mobile"* tab.
 
-* Launch the Sync Gateway from the command line with the *sync-gateway-config-userprofile-walrus.json* config file. This file is bundled with the User Profile mobile App source that you downloaded as per instructions in <<Fetching App Source Code>> section. The `sync-gateway-config-userprofile-walrus.json` will be located in the `/path/to/UserProfileDemo/modules/userprofile/examples/src` folder 
+* Launch the Sync Gateway from the command line with the *sync-gateway-config-userprofile-android-walrus.json* config file. This file is bundled with the User Profile mobile App source that you downloaded as per instructions in <<Fetching App Source Code>> section. The `sync-gateway-config-userprofile-android-walrus.json` will be located in the `/path/to/UserProfileDemo/modules/userprofile/examples/src` folder
 +
 Type following commands in the command terminal - 
 +
@@ -125,14 +125,14 @@ Type following commands in the command terminal -
 ----
 cd  /path/to/sync-gateway-installation/couchbase-sync-gateway/bin
 
-./sync_gateway /path/to/UserProfileDemo/modules/userprofile/examples/src/sync-gateway-config-userprofile-walrus.json
+./sync_gateway /path/to/UserProfileDemo/modules/userprofile/examples/src/sync-gateway-config-userprofile-android-walrus.json
 ----
 +
 * You should see a bunch of logs output to the console, similar to one below. For brevity, some of the log messages have been trimmed from output below
 +
 [source,bash]
 ----
-~/couchbase-sync-gateway/bin | => ./sync_gateway ~/projects/android/UserProfileDemo/modules/userprofile/examples/src/sync-gateway-config-userprofile-walrus.json 
+~/couchbase-sync-gateway/bin | => ./sync_gateway ~/projects/android/UserProfileDemo/modules/userprofile/examples/src/sync-gateway-config-userprofile-android-walrus.json
 2018-05-07T15:25:02.924-04:00 Enabling logging: [*]
 2018-05-07T15:25:02.924-04:00 ==== Couchbase Sync Gateway/2.0.0(832;2d8a6c0) ====
 2018-05-07T15:25:03.028-04:00     Created user "demo@example.com"
@@ -236,9 +236,9 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/universit
 ----
 
 == Sync Gateway Configuration 
-The link:https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/config-properties/index.html[Sync Gateway Configuration] determines the run time behavior of the Sync Gateway and is typically specified in a JSON file. You can also use the link:https://developer.couchbase.com/documentation/mobile/2.0/references/sync-gateway/admin-rest-api/index.html#/database/put__db___config[Sync Gateway Config REST Endpoint] to specify the configuration. In our application, we will be defining it in the `*sync-gateway-config-userprofile-walrus.json*` file.
+The link:https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/config-properties/index.html[Sync Gateway Configuration] determines the run time behavior of the Sync Gateway and is typically specified in a JSON file. You can also use the link:https://developer.couchbase.com/documentation/mobile/2.0/references/sync-gateway/admin-rest-api/index.html#/database/put__db___config[Sync Gateway Config REST Endpoint] to specify the configuration. In our application, we will be defining it in the `*sync-gateway-config-userprofile-android-walrus.json*` file.
 
-* Open the `*sync-gateway-config-userprofile-walrus.json*` file using any text editor of your choice. The `sync-gateway-config-userprofile-walrus.json` is located in the app bundle at `/path/to/UserProfileDemo/modules/userprofile/examples/src`. 
+* Open the `*sync-gateway-config-userprofile-android-walrus.json*` file using any text editor of your choice. The `sync-gateway-config-userprofile-android-walrus.json` is located in the app bundle at `/path/to/UserProfileDemo/modules/userprofile/examples/src`.
 +
 Locate the following settings in the configuration file -
 +
@@ -280,7 +280,7 @@ You can learn more about the walrus mode in this link:https://developer.couchbas
 == Sync Function
 The Sync Function is a Javascript function that is specified as part of the <<Sync Gateway Configuration>>. The Sync Function handles data validation, authorization, access control and data routing. 
 
-* Open the `*sync-gateway-config-userprofile-walrus.json*` file using any text editor of your choice. The `sync-gateway-config-userprofile-walrus.json` is located in the app bundle at `/path/to/UserProfileDemo/modules/userprofile/examples/src`. 
+* Open the `*sync-gateway-config-userprofile-android-walrus.json*` file using any text editor of your choice. The `sync-gateway-config-userprofile-android-walrus.json` is located in the app bundle at `/path/to/UserProfileDemo/modules/userprofile/examples/src`.
 * Locate the `sync` setting and follow along with the rest of the sections below
 
 === Authorization
