@@ -124,7 +124,7 @@ public class UserProfileActivity extends AppCompatActivity implements UserProfil
         profile.put("email", emailInput.getText().toString());
         profile.put("address", addressInput.getText().toString());
         profile.put("university", universityText.getText().toString());
-
+        profile.put("type", "user");
         byte[] imageViewBytes = getImageViewBytes();
 
         if (imageViewBytes != null) {

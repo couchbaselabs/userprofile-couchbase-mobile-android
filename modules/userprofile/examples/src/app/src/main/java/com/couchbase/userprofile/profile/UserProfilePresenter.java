@@ -61,6 +61,7 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
                         profile.put("address", dictionary.getString("address")); // <4>
                         profile.put("imageData", dictionary.getBlob("imageData")); // <4>
                         profile.put("university", dictionary.getString("university")); // <4>
+                        profile.put("type", dictionary.getString("type")); // <4>
                     }
                 }
 
