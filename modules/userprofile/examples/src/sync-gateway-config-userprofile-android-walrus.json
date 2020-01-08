@@ -1,11 +1,55 @@
 {
   "interface":":4984",
-  "log": ["*"],
+   "log": ["*"],
+  "logging": {
+    "log_file_path": "/var/tmp/sglogs",
+    "console": {
+      "log_level": "debug",
+      "log_keys": ["*"]
+    },
+    "error": {
+      "enabled": true,
+      "rotation": {
+        "max_size": 20,
+        "max_age": 180
+      }
+    },
+    "warn": {
+      "enabled": true,
+      "rotation": {
+        "max_size": 20,
+        "max_age": 90
+      }
+    },
+    "info": {
+      "enabled": false
+    },
+    "debug": {
+      "enabled": false
+    }
+  },
   "databases": {
     "userprofile": {
-      "users": { "demo@example.com": { "password": "password"} },
+      "import_docs": true,
+      "bucket":"userprofile",
       "server": "walrus:",
-    "sync": `
+      "enable_shared_bucket_access":true,
+      "delta_sync": {
+        "enabled":true
+      },
+       "num_index_replicas":0,
+      "import_filter": `
+        function(doc) {
+              if (doc.type == "user" || doc.type == "university") {
+            return true;
+          }
+          return false;
+        }
+        `,
+      "username": "admin",
+      "password": "password",
+     "users": { "demo@example.com": { "password": "password"} },
+    "sync":  `
 function sync(doc, oldDoc) {
    
    /* Authorization */
@@ -30,7 +74,7 @@ function sync(doc, oldDoc) {
      
         }
       
-      } else {       
+      } else {
 
          // Validate that the email hasn't changed.
         validateReadOnly("email", doc.email, oldDoc.email);
@@ -53,7 +97,7 @@ function sync(doc, oldDoc) {
        access(email,"channel." + email)
    }
 
-  // get type property 
+  // get type property
   function getType() {
     return (isDelete() ? oldDoc.type : doc.type);
   }
