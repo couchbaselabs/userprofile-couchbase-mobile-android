@@ -54,7 +54,7 @@ public class UserProfilePresenter implements UserProfileContract.UserActionsList
                 profile.put("email", DatabaseManager.getSharedInstance().currentUser);
 
                 while ((row = rows.next()) != null) {
-                    Dictionary dictionary = row.getDictionary("userprofiles"); // <3>
+                    Dictionary dictionary = row.getDictionary("userprofile"); // <3>
 
                     if (dictionary != null) {
                         profile.put("name", dictionary.getString("name")); // <4>
