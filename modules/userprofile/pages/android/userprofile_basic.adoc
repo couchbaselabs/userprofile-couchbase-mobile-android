@@ -26,17 +26,17 @@ Couchbase Mobile supports flexible deployment models. You can deploy
 
 * Couchbase Lite as a standalone embedded database within your mobile apps or,
 * Couchbase Lite enabled mobile clients with a Sync Gateway to sychronize data between your mobile clients or,
-* Couchbase Lite enabled clients with a Sync Gateway to sync data between mobile clients and the Couchbase Server, which can persist data in the cloud (public or private) 
+* Couchbase Lite enabled clients with a Sync Gateway to sync data between mobile clients and the Couchbase Server, which can persist data in the cloud (public or private)
 
-This tutorial will walk you through a very basic example of how you can use *Couchbase Lite 2.x in standalone mode* within your link:https://www.android.com[*Android*]  app. 
+This tutorial will walk you through a very basic example of how you can use *Couchbase Lite 2.x in standalone mode* within your link:https://www.android.com[*Android*]  app.
 
 You will learn the fundamentals of
 
-* Database Operations 
+* Database Operations
 * Document CRUD Operations
 
 ====
-You can learn more about Couchbase Mobile https://developer.couchbase.com/mobile[here]
+You can learn more about Couchbase Mobile https://docs.couchbase.com/home/mobile.html[here]
 ====
 
 == Prerequisites
@@ -69,10 +69,10 @@ image::{imagesdir}/android/user_profile.gif[User Profile App Demo,400]
 
 - Clone the *_standalone_* branch of the `User Profile Demo` repository from GitHub. Assuming that you have link:https://git-scm.com/downloads[Git] installed you can use the following command to clone the solution:
 +
-[source,bash] 
+[source,bash]
 ----
 git clone -b standalone https://github.com/couchbaselabs/userprofile-couchbase-mobile-android.git
----- 
+----
 
 ==== Option 2 : Download .zip
 
@@ -124,12 +124,12 @@ image::{imagesdir}/android/mvp_package.png[MVP Package]
 == Data Model
 
 Couchbase Lite is a JSON Document Store. A `Document` is a logical collection of named fields and values. The values are any valid JSON types. In addition to the standard JSON types, Couchbase Lite supports `Date` and `Blob` data types.
-While it is not required or enforced, it is a recommended practice to include a _"type"_ property that can serve as a namespace for related documents. 
+While it is not required or enforced, it is a recommended practice to include a _"type"_ property that can serve as a namespace for related documents.
 
 === The "User Profile" Document
 
 The sample app deals with a single `Document` with a _"type"_ property of _"user"_.  The document ID is of the form _"user::<email>"_.
-An example of a document would be 
+An example of a document would be
 
 ```json
 {
@@ -140,9 +140,9 @@ An example of a document would be
     "image":CBLBlob (image/jpg) // <1>
 }
 ```
-<1> Special link:https://docs.couchbase.com/couchbase-lite/current/java.html#blobs[`Blob`] data type that is associated with the profile image.
+<1> Special https://docs.couchbase.com/couchbase-lite/current/android/learn/java-android-blob.html[`Blob`] data type that is associated with the profile image.
 
-=== UserProfile 
+=== UserProfile
 
 For the purpose of this tutorial the _"user"_ `Document` is first stored within an `Object` of type `Map<String, Object>`.
 
@@ -157,11 +157,11 @@ The `Map<String, Object>` object functions are used as a data storage mechanism 
 
 In this section, we will do a code walkthrough of the basic Database operations.
 
-=== initialize Couchbase Lite 
+=== initialize Couchbase Lite
 
 Before you can start using Couchbase Lite on Android, you would have to initialize it. Starting with v2.6, Couchbase Lite needs to be initialized with appropriate Android Application Context. Prior to 2.6, you would specify this in the `DatabaseConfiguration`
 
-* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `initCouchbaseLite` method. 
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `initCouchbaseLite` method.
 +
 [source,java]
 ----
@@ -170,9 +170,9 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 
 === Create and Open a Database
 
-When a user logs in, we create an empty Couchbase Lite database for the user if one does not exist. 
+When a user logs in, we create an empty Couchbase Lite database for the user if one does not exist.
 
-* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `openOrCreateDatabaseForUser` method. 
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `openOrCreateDatabaseForUser` method.
 +
 [source,java]
 ----
@@ -182,24 +182,24 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 * We create an instance of the `DatabaseConfiguration` within link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] via an `abstract` requirement from the parent class, `BaseRepository`. This is an optional step. In our case, we would like to override the default path of the database. Every user has their own instance of the `Database` that is located in a folder corresponding to the user. Please note that the default path is platform specific.
 +
 [source,java]
----- 
+----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=databaseConfiguration,indent=0]
----- 
+----
 
 * Then we create a local Couchbase Lite database named *_"userprofiles"_* for the user. If a database already exists for the user, the existing version is returned.
-+ 
-[source,java] 
++
+[source,java]
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=createDatabase,indent=0]
----- 
+----
 
 === Listening to Database Changes
 
 You can be asynchronously notified of any change (add, delete, update) to the Database by registering a change listener with the Database. In our app, we are not doing anything special with the Database change notification other than logging the change. In a real world app, you would use this notification for instance, to update the UI.
 
-* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `registerForDatabaseChanges()` function. 
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `registerForDatabaseChanges()` function.
 [source,java]
-+ 
++
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=registerForDatabaseChanges,indent=0]
 ----
@@ -215,10 +215,10 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 
 When a user logs out, we close the Couchbase Lite Database associated with the user and deregister any database change listeners
 
-* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `closeDatabaseForCurrentUser()` function. 
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `closeDatabaseForCurrentUser()` function.
 +
 [source,java]
----- 
+----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=closeDatabaseForUser,indent=0]
 ----
 
@@ -227,11 +227,11 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/Data
 [source,java]
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=closeDatabase,indent=0]
----- 
+----
 
 === De-registering from Database Changes
 
-* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `deregisterForDatabaseChanges()` function. 
+* Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[*DatabaseManager.java*] file and locate the `deregisterForDatabaseChanges()` function.
 +
 [source,java]
 ----
@@ -265,14 +265,14 @@ Once the user logs in, the user is taken to the "Your Profile" screen. A request
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/util/DatabaseManager.java[tags=userProfileDocId,indent=0]
 ----
 
-* Next, in the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserProfilePresenter.java*] file, locate the `fetchProfile` method. 
+* Next, in the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserProfilePresenter.java*] file, locate the `fetchProfile` method.
 +
 [source,java]
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[tags=fetchProfile,indent=0]
----- 
+----
 +
-**Note**: The `fetchProfile` method is required by link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileContract.java[*UserProfileContract.java*], playing a key role in the MVP architecture previously mentioned. 
+**Note**: The `fetchProfile` method is required by link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfileContract.java[*UserProfileContract.java*], playing a key role in the MVP architecture previously mentioned.
 
 * We try to fetch the `Document` with specified `userProfileDocId` from the database.
 +
@@ -288,11 +288,11 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 
 === Creating / Updating a Document
 
-A <<The "User Profile" Document>> is created for the user when the user taps the "Save" button on the "Profile Screen". 
+A <<The "User Profile" Document>> is created for the user when the user taps the "Save" button on the "Profile Screen".
 The method below applies whether you are creating a document or updating an existing version.
 
 * Open the link:{githubsrc}/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[*UserProfilePresenter.java*] file and locate the `saveProfile` method.
-+ 
++
 [source,java]
 ----
 include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/UserProfilePresenter.java[tags=saveProfile,indent=0]
@@ -334,7 +334,7 @@ if (document != null) {
 +
 image::{imagesdir}/android/doc_create.png[User Profile Document Creation]
 +
-* Now tap on the "Upload Photo" button and select an image from the Photo Album. 
+* Now tap on the "Upload Photo" button and select an image from the Photo Album.
 +
 image::{imagesdir}/android/image_selection.gif[100,400]
 +
@@ -342,7 +342,7 @@ image::{imagesdir}/android/image_selection.gif[100,400]
 * Confirm that you see toast message "Succesfully Updated Profile". The `Document` will be updated this time.
 * Tap "Log Out" and log out of the app
 * Log back into the app with the same user email Id and password that you used earlier. In my example, I used _"+demo@example.com+"_ and _"password"_. (Logging in with those credentials again)
-* Confirm that you see the profile screen  with the _name_ and _image_ values that you set earlier.  
+* Confirm that you see the profile screen  with the _name_ and _image_ values that you set earlier.
 +
 image::{imagesdir}/android/log_off_on.gif[200,400]
 
