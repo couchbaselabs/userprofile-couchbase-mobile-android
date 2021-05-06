@@ -81,7 +81,7 @@ You have two options
 +
 [source,bash] 
 ----
-  git clone -b sync https://github.com/couchbaselabs/userprofile-couchbase-mobile.git
+  git clone -b sync https://github.com/couchbaselabs/userprofile-couchbase-mobile-android
 ----
 
 ==== Option 2 : Download .zip
