@@ -587,6 +587,6 @@ Check out the following links for further details
 
 * link:https://blog.couchbase.com/data-replication-couchbase-mobile/[Overview of Replication Protocol 2.0]
 
-* link:https://blog.couchbase.com/couchbase-mobile-docker/[Installing Sync Gateway using Docker]
+* link:https://blog.couchbase.com/using-docker-with-couchbase-mobile/[Installing Sync Gateway using Docker]
 
 
