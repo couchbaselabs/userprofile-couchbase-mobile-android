@@ -1,0 +1,4 @@
+* Getting Started on Android
+** xref:userprofile-standalone-android:userprofile_basic.adoc[Standalone]
+** xref:userprofile-query-android:userprofile_query.adoc[Query]
+** xref:userprofile-sync-android:userprofile_sync.adoc[Sync]
