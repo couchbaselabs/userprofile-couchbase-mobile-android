@@ -1,4 +1,5 @@
 = User Profile Sample: Couchbase Lite Fundamentals
+:page-toclevels: 3@
 :idprefix:
 :idseparator: -
 :icons: font
@@ -6,11 +7,10 @@
 :page-hide-view-latest: true
 ifndef::env-site,env-github[]
 :toc: left
-:toclevels: 3
 endif::[]
 :examplesdir: ../../examples
 :imagesdir: ../../assets/images
-:githubsrc: https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/standalone/modules/userprofile/examples/src
+:githubsrc: https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/standalone/content/modules/userprofile-standalone-android/examples/src
 
 toc::[]
 
@@ -74,9 +74,11 @@ https://www.java.com[Java].
 * git (Optional) +
 This is required if you would prefer to pull the source code from GitHub repo.
 
-** Create a example$https://github.com[free github account] if you don't already have one
-
-** git can be downloaded from https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git-scm.org]
+** Create a
+https://github.com[free github account]
+if you don't already have one. +
+git can be downloaded from
+https://git-scm.com/book/en/v2/Getting-Started-Installing-Git[git-scm.org]
 
 
 == App Overview
@@ -437,12 +439,13 @@ If you want to learn more about Couchbase Mobile, check out the following links.
 
 .Further Reading
 ****
-*
-https://www.couchbase.com/products/mobile[Introduction to Couchbase Mobile]
-*
-https://blog.couchbase.com/couchbase-mobile-2-0/[Couchbase Mobile 2.0 Overview]
-*
-https://docs.couchbase.com/couchbase-lite/current/introduction.html[Couchbase Lite Reference Guide]
-*
-https://blog.couchbase.com/category/couchbase-mobile/[Couchbase Mobile Blogs]
+
+* https://www.couchbase.com/products/mobile[Introduction to Couchbase Mobile]
+
+* https://blog.couchbase.com/couchbase-mobile-2-0/[Couchbase Mobile Overview]
+
+* https://docs.couchbase.com/couchbase-lite/current/introduction.html[Couchbase Lite Reference Guide]
+
+* https://blog.couchbase.com/category/couchbase-mobile/[Couchbase Mobile Blogs]
+
 ****
