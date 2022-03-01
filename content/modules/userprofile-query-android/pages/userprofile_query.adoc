@@ -193,7 +193,7 @@ An example of a document would be
 }
 ----
 
-[#lbl-usrprof]
+[#user-profile]
 === UserProfile
 
 For the purpose of this tutorial the _"user"_ `Document` is first stored within an `Object` of type `Map<String, Object>`.
@@ -205,7 +205,7 @@ include::example$/src/app/src/main/java/com/couchbase/userprofile/profile/UserPr
 
 The `Map<String, Object>` object functions used as a data storage mechanism between the app's UI and the backing functionality of the Couchbase Lite `Document` object.
 
-[#lbl-unidoc]
+[#university-document]
 === The University Document
 
 The app comes bundled with a collection of Documents of type _"university"_. Each `Document` represents a university.
@@ -257,7 +257,7 @@ image::cblite_location.png[Prebuilt Database Location]
 +
 Note: The cblite folder will be extracted from the zip file.
 
-[#lbl-prebuilt]
+[#prebuilt-database]
 === Loading the Prebuilt Database
 
 * Open the
@@ -347,7 +347,7 @@ In our app, we will be using the `QueryBuilder` API to make a simple _pattern ma
 === Fetching University Document
 
 From the "Your Profile" screen, when the user taps on the "University" cell, a search screen is displayed where the user can enter the search criteria (name and optionally, the location) for the university.
-When the search criteria is entered, the local _"universities"_ Database is queried for the <<lbl-unidoc, University>> documents that match the specified search criteria.
+When the search criteria is entered, the local _"universities"_ Database is queried for the <<university-document, University>> documents that match the specified search criteria.
 
 * Open the {githubsrc}/app/src/main/java/com/couchbase/userprofile/universities/UniversitiesPresenter.java[*UniversitiesPresenter.java*] file and locate the `fetchUniversities` function.
 +
@@ -379,15 +379,15 @@ This is because the `like` operator does _case-sensitive matching_, so we must c
 ----
 include::example$/src/app/src/main/java/com/couchbase/userprofile/universities/UniversitiesPresenter.java[tags=runquery,indent=0]
 ----
-<1> Create an instance of <<lbl-unidoc, UniversityRecord>> (via `HashMap`).
+<1> Create an instance of <<university-document, UniversityRecord>> (via `HashMap`).
 <2> Use specific type getters to fetch property values.
-The <<lbl-unidoc, UniversityRecord>> instance is populated with these property values.
+The <<university-document, UniversityRecord>> instance is populated with these property values.
 <3> Getters also available for `array` types.
 This returns a Couchbase Lite `ArrayObject` type.
 
 .Try It Out
 ****
-. You should have followed the steps discussed in the "Try It Out" section under <<lbl-prebuilt, Loading the Prebuilt Database>>
+. You should have followed the steps discussed in the "Try It Out" section under <<prebuilt-database, Loading the Prebuilt Database>>
 
 . Tap on "University" table cell
 
