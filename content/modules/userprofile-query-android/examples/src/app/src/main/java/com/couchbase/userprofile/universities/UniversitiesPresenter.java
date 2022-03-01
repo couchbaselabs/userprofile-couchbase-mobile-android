@@ -39,17 +39,17 @@ public class UniversitiesPresenter implements UniversitiesContract.UserActionsLi
         Database database = DatabaseManager.getUniversityDatabase();
 
         // tag::buildquery[]
-        Expression whereQueryExpression = Function.lower(Expression.property("name")).like(Expression.string("%" + name.toLowerCase() + "%")); // <1>
+        Expression whereQueryExpression = Function.lower(Expression.property("name")).like(Expression.string("%" + name.toLowerCase() + "%")); // <.>
 
         if (country != null && !country.isEmpty()) {
-            Expression countryQueryExpression = Function.lower(Expression.property("country")).like(Expression.string("%" + country.toLowerCase() + "%")); // <2>
+            Expression countryQueryExpression = Function.lower(Expression.property("country")).like(Expression.string("%" + country.toLowerCase() + "%")); // <.>
 
-            whereQueryExpression = whereQueryExpression.and(countryQueryExpression); // <3>
+            whereQueryExpression = whereQueryExpression.and(countryQueryExpression);
         }
 
-        Query query = QueryBuilder.select(SelectResult.all()) // <4>
-                                  .from(DataSource.database(database)) // <5>
-                                  .where(whereQueryExpression); // <6>
+        Query query = QueryBuilder.select(SelectResult.all()) // <.>
+                                  .from(DataSource.database(database)) // <.>
+                                  .where(whereQueryExpression); // <.>
         // end::buildquery[]
 
         ResultSet rows = null;
