@@ -1,2 +1,9 @@
 name: tutorials
 version: 'master'
+asciidoc:
+  attributes:
+    major: 3
+    minor: 0
+    maintenance: 0
+    base: 0
+

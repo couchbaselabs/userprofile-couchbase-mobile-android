@@ -9,7 +9,12 @@ ifndef::env-site,env-github[]
 endif::[]
 :examplesdir: ../../examples
 :imagesdir: ../../assets/images
-:githubsrc: https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/sync/modules/userprofile/examples/src
+:githubsrc: https://github.com/couchbaselabs/userprofile-couchbase-mobile-android/tree/sync/content/modules/userprofile-sync-android/examples/src
+ifndef::major[:major: 3]
+ifndef::minor[:minor: 0]
+ifndef::maintenance[:maintenance: 0]
+ifndef::base[:base: 0]
+
 
 toc::[]
 
@@ -110,13 +115,11 @@ The core functions of the Sync Gateway include
 ****
 This tutorial will demonstrate how to -
 
-* Setup the Couchbase Sync Gateway (in walrus mode) to sync content between multiple Couchbase Lite enabled clients.
-We will will cover the basics of the
-https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/config-properties/index.html[Sync Gateway Configuration].
+* Setup the Couchbase Sync Gateway to sync content between multiple Couchbase Lite enabled clients.
+We will will cover the basics of the {sync-gateway-config-overview--xref}.
 
 * Configure your Sync Gateway to enforce data routing, access control and authorization.
-We will cover the basics of
-https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/sync-function-api-guide/index.html[Sync Function API]
+We will cover the basics of the {sync-function--xref}.
 
 * Configure your Couchbase Lite clients for replication with the Sync Gateway.
 
@@ -124,8 +127,7 @@ https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/syn
 
 We will be using an Android app as an example of a Couchbase Lite enabled client.
 ====
-You can learn more about Sync Gateway
-https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/index.html[here]
+You can learn more about Sync Gateway here in the {sync-gateway-docs--xref}
 ====
 ****
 
@@ -141,9 +143,9 @@ and with the basics of Couchbase Lite.
 
 * If you are unfamiliar with the basics of Couchbase Lite, it is recommended that you walk through the following tutorials:
 
-** https://docs.couchbase.com/userprofile-couchbase-mobile/standalone/userprofile/android/userprofile_basic.html[Fundamentals] of using Couchbase Lite as a standalone database
+** The fundamentals of using Couchbase Lite, in the {standalone--xref}
 
-** https://docs.couchbase.com/userprofile-couchbase-mobile/query/userprofile/android/userprofile_query.html[Query Basics] with a prebuilt version of Couchbase Lite database
+** The {query--xref}, which introduces Query basics, together with use of a prebuilt database
 
 To follow the tutorial it will be useful to have:
 
@@ -179,9 +181,7 @@ or use the HTTP client of your choice.
 
 === Userprofile Sample App
 
-We will be working with a simple "User Profile" app which we introduced in the
-https://developer.couchbase.com/documentation/mobile/2.0/userprofile_basic.html[Fundamentals Tutorial] and extended in the
-https://developer.couchbase.com/documentation/mobile/2.0/userprofile_query.html[Query Tutorial].
+We will be working with a simple "User Profile" app which we introduced in the {standalone--xref} and extended in the {query--xref}.
 
 In this tutorial, we will be extending that app to support data sync. It will now also:
 
@@ -260,7 +260,7 @@ image::user_profile_login.png[User Profile Login Screen Image]
 == Data Model
 
 
-If have followed the tutorial on [Query Basics], you can skip this section and proceed to the <<Backend Installation>>. section.
+If have followed the {query--xref}, you can skip this section and proceed to the <<Backend Installation>>. section.
 We have not made any changes to the Data model for this tutorial.
 
 Couchbase Lite is a JSON Document Store.
@@ -491,7 +491,7 @@ docker run -p 4984-4986:4984-4986 \
 -d \
 -v `pwd`/{sgw-config-filename-3x0}:\
 /etc/sync_gateway/sync_gateway.json \
-couchbase/sync-gateway:3.0-enterprise \
+couchbase/sync-gateway:3.0.0-enterprise \
 /etc/sync_gateway/sync_gateway.json
 ----
 --
@@ -589,15 +589,15 @@ Now that we have the server and the sync gateway installed, we can verify data s
 The Sync Function is a Javascript function that is specified as part of the <<Configuration, Sync Gateway Configuration>>.
 The Sync Function handles data validation, authorization, access control and data routing.
 
-* Open the `*sync-gateway-config-userprofile-android-walrus.json*` file using any text editor of your choice.
-The `sync-gateway-config-userprofile-android-walrus.json` is located in the app bundle at `/path/to/UserProfileDemo/modules/userprofile/examples/src`.
+* Open the `sync-gateway-config-userprofile-demo-2-x.json*` file using any text editor of your choice.
+This configuration file is located in the app bundle at `/path/to/UserProfileDemo/modules/userprofile/examples/src`.
 
 * Locate the `sync` setting and follow along with the rest of the sections below
 
 === Authorization
 
 We use the
-https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/sync-function-api-guide/index.html#requireuserusername[`requireUser()`]
+{sync-function-api-require-user--xref}
 API to verify that the `email` property specified in the Document matches the Id of the user making the request.
 The Id of the user making the request is specified in the `Authorization` header.
 We will be using _Basic Authentication_ in our application.
@@ -670,13 +670,21 @@ function sync(doc, oldDoc) {
 
 
 ====
-You can learn more about the Sync Function in this
-https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/sync-function-api-guide/index.htm[guide]
+You can learn more about the Sync Function in the
+{sync-function--xref}
+
 ====
 
 
 === Data Routing
-https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/channels/index.html#introduction-to-channels[`channels`] are a mechanism to "tag" documents and is typically used to seggregate documents based on the contents of the document. Combined with https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/sync-function-api-guide/index.html#access-username-channelname[access API] and [`requireAccess API`], it can be used to enforce <<Access Control>>. As we shall see in a later section, clients can use channels to pull only a subset of documents.
+
+{channels--xref} are a mechanism to "tag" documents and is typically used to segregate documents based on the contents of the document.
+Combined with the
+{sync-function-api-access--xref}
+and
+{sync-function-api-require-access--xref}
+API, it can be used to enforce <<Access Control>>.
+As we shall see in a later section, clients can use channels to pull only a subset of documents.
 
 [source,javascript]
 ----
@@ -696,7 +704,11 @@ https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/cha
 <1> The channel comes into existance the first time a document is added to it. In our case, the channel name is generated from the `email` property specified in the document
 
 === Access Control
-You can enforce access control to channels using the https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/sync-function-api-guide/index.html#access-username-channelname[access API]. This will ensure that only users with access to a specific channel will be able to retrieve documents in the channel.
+
+You can enforce access control to channels using the
+{sync-function-api-access--xref}
+API.
+This will ensure that only users with access to a specific channel will be able to retrieve documents in the channel.
 
 [source,javascript]
 ----
@@ -821,7 +833,9 @@ include::{examplesdir}/src/app/src/main/java/com/couchbase/userprofile/profile/U
 +
 <1> Attach a listener callback to the query. Attaching a listerner automatically makes it _live_ so any time there is a change in the user profile data in the underlying database, the callback would be invoked
 <2> Create an instance of <<UserRecord>>. This will be populated with the query results.
-<3> The `SelectResult.all()` method is used to query all the properties of a document. In this case, the document in the result is embedded in a dictionary where the key is the database name, which is _"userprofile"_. So we retrieve the https://docs.couchbase.com/mobile/2.0/couchbase-lite-java/db021/index.html?com/couchbase/lite/Dictionary.html[`Dictionary`] at key _"userprofile"_.
+<3> The `SelectResult.all()` method is used to query all the properties of a document.
+In this case, the document in the result is embedded in a dictionary where the key is the database name, which is _"userprofile"_.
+So we retrieve the Dictionary at key _"userprofile"_.
 <4>  We use appropriate _type getters_ to retrieve values and populate the _UserRecord_ instance
 
 
@@ -949,11 +963,33 @@ We discussed how to configure your Sync Gateway to enforce relevant access contr
 
 Check out the following links for further details
 
+
+:documentation-component--xref: pass:q,a[xref:{target-version}@sync-gateway:]
+:documentation-module--xref: pass:q,a[{documentation-component--xref}:]
+:access-control-model--xref: {documentation-module--xref}access-control.adoc[Access Control Model]
+:channels--xref: {documentation-module--xref}channels.adoc[Channels]
+:prepare--xref: {documentation-module--xref}get-started-prepare.adoc[Get Started - Prepare]
+:sync-function--xref: pass:q,a[{documentation-module--xref}sync-function.adoc[Sync Function API]]
+:sync-function-api-access--xref: {documentation-module--xref}sync-function-api-access-cmd.adoc[access()]
+:sync-function-api-channel--xref: {documentation-module--xref}sync-function-api-channel-cmd.adoc[channel()]
+:sync-function-api-require-access--xref: {documentation-module--xref}sync-function-api-require-access-cmd.adoc[requireAccess()]
+:sync-function-api-require-user--xref: {documentation-module--xref}sync-function-api-require-user-cmd.adoc[requireUser()]
+:sync-gateway-docs--xref: {documentation-module--xref}index.adoc[Sync Gateway Documentation]
+:sync-gateway-config-overview--xref: {documentation-module--xref}configuration-overview.adoc[Sync Gateway Configuration]
+:sync-gateway-config-legacy--xref: {documentation-module--xref}configuration-properties-legacy.adoc[legacy configuration option]
+:rest-api--url: https://docs.couchbase.com/sync-gateway/{target-version}/rest-api.html
+:rest-api-document-put--url: {rest-api--url}#/document/AddOrUpdateDocument[PUT Document REST API]
+:rest-api-document-get--url: {rest-api--url}#/document/GetDocument[GET Document REST API]
+
+
 .Further Reading
 ****
-* https://developer.couchbase.com/documentation/mobile/2.0/guides/sync-gateway/config-properties/index.html[Sync Gateway Configuration]
+
+* {sync-gateway-config-overview--xref}
 
 * https://blog.couchbase.com/data-replication-couchbase-mobile/[Overview of Replication Protocol 2.0]
 
 * https://blog.couchbase.com/couchbase-mobile-docker/[Installing Sync Gateway using Docker]
+
 ****
+
